@@ -23,6 +23,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .checkboxes {
@@ -218,9 +219,15 @@
         row.appendChild(btns);
         container.appendChild(row);
       } else {
-        // Multi-checkbox with master
+        // Multi-checkbox task
         const header = document.createElement('div');
         header.className = 'task-header';
+
+        // Left side: master checkbox + label
+        const leftWrap = document.createElement('div');
+        leftWrap.style.display = 'flex';
+        leftWrap.style.alignItems = 'center';
+        leftWrap.style.gap = '10px';
 
         const labelWrap = document.createElement('label');
         labelWrap.className = 'checkbox-label green';
@@ -242,6 +249,13 @@
 
         labelWrap.appendChild(masterCheckbox);
         labelWrap.appendChild(labelText);
+        leftWrap.appendChild(labelWrap);
+
+        // Right side: time and buttons
+        const rightWrap = document.createElement('div');
+        rightWrap.style.display = 'flex';
+        rightWrap.style.alignItems = 'center';
+        rightWrap.style.gap = '10px';
 
         const timeLabel = document.createElement('div');
         timeLabel.className = 'time';
@@ -266,11 +280,15 @@
         btns.appendChild(editBtn);
         btns.appendChild(delBtn);
 
-        header.appendChild(labelWrap);
-        header.appendChild(timeLabel);
-        header.appendChild(btns);
+        rightWrap.appendChild(timeLabel);
+        rightWrap.appendChild(btns);
+
+        // Assemble header
+        header.appendChild(leftWrap);
+        header.appendChild(rightWrap);
         container.appendChild(header);
 
+        // Sub-checkboxes
         const checkboxGroup = document.createElement('div');
         checkboxGroup.className = 'checkboxes';
         if (isComplete) checkboxGroup.classList.add('hidden');
